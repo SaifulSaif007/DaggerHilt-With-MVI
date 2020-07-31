@@ -15,7 +15,7 @@ constructor(
     private val movieMapper : MovieNetworkMapper
 ) {
 
-    suspend fun getPopularMovies() : Flow<DataState<PopularMovies>> = flow {
+    suspend fun getPopularMovies() : Flow<DataState<List<PopularMovies.Result>>> = flow {
         emit(DataState.Loading)
 
         try {
@@ -24,7 +24,7 @@ constructor(
                 1
             )
 
-            val movies = movieMapper.mapFromEntity(networkMovies)
+            val movies = movieMapper.mapFromEntityList(networkMovies.results)
             emit(DataState.Success(movies))
 
         }

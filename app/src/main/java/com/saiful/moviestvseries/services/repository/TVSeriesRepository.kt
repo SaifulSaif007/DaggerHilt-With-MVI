@@ -14,7 +14,7 @@ constructor(
     private val tvSeriesMapper: TVSeriesNetworkMapper
 ){
 
-    suspend fun getPopularTvSeries() : Flow<DataState<PopularTVSeries>> = flow {
+    suspend fun getPopularTvSeries() : Flow<DataState<List<PopularTVSeries.Result>>> = flow {
         emit(DataState.Loading)
 
         try {
@@ -23,7 +23,7 @@ constructor(
                 1
             )
 
-            val tvSeries =tvSeriesMapper.mapFromEntity(networkTVSeries)
+            val tvSeries =tvSeriesMapper.mapFromEntityList(networkTVSeries.results)
             emit(DataState.Success(tvSeries))
         }
         catch (e : Exception){

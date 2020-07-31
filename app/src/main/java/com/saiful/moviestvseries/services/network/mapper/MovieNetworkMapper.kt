@@ -7,21 +7,29 @@ import javax.inject.Inject
 
 class MovieNetworkMapper
 @Inject constructor() :
-    EntityMapper<PopularMoviesNetworkEntity, PopularMovies>
+    EntityMapper<PopularMoviesNetworkEntity.Result, PopularMovies.Result>
 {
-    override fun mapFromEntity(entity: PopularMoviesNetworkEntity): PopularMovies {
-        return PopularMovies(
-            page =  entity.page,
-            results = entity.results,
-            totalPages = entity.totalPages,
-            totalResults = entity.totalResults
+    override fun mapFromEntity(entity: PopularMoviesNetworkEntity.Result): PopularMovies.Result {
+        return PopularMovies.Result(
+            adult = entity.adult,
+            backdropPath = entity.backdropPath,
+            id = entity.id,
+            originalLanguage = entity.originalLanguage,
+            originalTitle = entity.originalTitle,
+            overview = entity.overview,
+            popularity = entity.popularity,
+            posterPath = entity.posterPath,
+            releaseDate = entity.releaseDate,
+            title = entity.title,
+            voteAverage = entity.voteAverage,
+            voteCount = entity.voteCount
         )
     }
 
 
-
-    fun mapFromEntityList(entities :  List<PopularMoviesNetworkEntity>) : List<PopularMovies>{
+    fun mapFromEntityList(entities :  List<PopularMoviesNetworkEntity.Result>) : List<PopularMovies.Result>{
         return entities.map { mapFromEntity(it) }
     }
+
 
 }

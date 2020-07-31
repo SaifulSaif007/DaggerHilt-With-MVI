@@ -10,5 +10,6 @@ sealed class DataState <out R>{
 
     object Loading : DataState<Nothing>()
 
+    data class EndOfList<out T>(val msg : T) : DataState<Nothing>()
 
 }

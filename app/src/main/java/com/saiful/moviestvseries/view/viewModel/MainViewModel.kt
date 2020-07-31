@@ -22,13 +22,13 @@ constructor(
     @Assisted private val savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
-    private val _dataStateForMovies : MutableLiveData<DataState<PopularMovies>> = MutableLiveData()
-    private val _dataStateForTVSeries : MutableLiveData<DataState<PopularTVSeries>> = MutableLiveData()
+    private val _dataStateForMovies : MutableLiveData<DataState<List<PopularMovies.Result>>> = MutableLiveData()
+    private val _dataStateForTVSeries : MutableLiveData<DataState<List<PopularTVSeries.Result>>> = MutableLiveData()
 
-    val dataStateForMovies : LiveData<DataState<PopularMovies>>
+    val dataStateForMovies : LiveData<DataState<List<PopularMovies.Result>>>
             get() = _dataStateForMovies
 
-    val dataStateForTVSeries : LiveData<DataState<PopularTVSeries>>
+    val dataStateForTVSeries : LiveData<DataState<List<PopularTVSeries.Result>>>
             get() = _dataStateForTVSeries
 
 
