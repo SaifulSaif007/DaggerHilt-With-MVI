@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.Glide
 import com.saiful.moviestvseries.R
+import com.saiful.moviestvseries.view.model.PopularMovies
 import com.saiful.moviestvseries.view.model.PopularTVSeries
 import kotlinx.android.synthetic.main.movie_list_item.view.*
 import kotlinx.android.synthetic.main.movie_list_item.view.poster_image
@@ -16,6 +17,7 @@ import kotlinx.android.synthetic.main.tvseries_list_item.view.*
 class PopularTvSeriesListAdapter(private val interaction: Interaction? = null) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    var serieslist : MutableList<PopularTVSeries.Result> = mutableListOf()
     val DIFF_CALLBACK = object : DiffUtil.ItemCallback<PopularTVSeries.Result>() {
 
         override fun areItemsTheSame(
@@ -61,7 +63,8 @@ class PopularTvSeriesListAdapter(private val interaction: Interaction? = null) :
     }
 
     fun submitList(list: List<PopularTVSeries.Result>) {
-        differ.submitList(list)
+        serieslist.addAll(list)
+        differ.submitList(serieslist)
     }
 
     class TVSeriesListViewHolder

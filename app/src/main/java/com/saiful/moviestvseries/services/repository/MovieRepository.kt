@@ -1,10 +1,10 @@
 package com.saiful.moviestvseries.services.repository
 
-import android.util.Log
 import com.saiful.moviestvseries.view.model.PopularMovies
 import com.saiful.moviestvseries.services.network.abstraction.RetrofitService
 import com.saiful.moviestvseries.services.network.mapper.MovieNetworkMapper
 import com.saiful.moviestvseries.util.DataState
+import com.saiful.moviestvseries.view.adapter.MoviePaginationListner.Companion.PAGE_START
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.lang.Exception
@@ -21,7 +21,7 @@ constructor(
         try {
             val networkMovies = retrofitService.getPopularMovies(
                 "697bf3a9a65fafc6982838746d30694b",
-                1
+                PAGE_START
             )
 
             val movies = movieMapper.mapFromEntityList(networkMovies.results)

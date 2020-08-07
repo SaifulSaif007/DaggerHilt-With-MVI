@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.movie_list_item.view.*
 class PopularMovieListAdapter(private val interaction: Interaction? = null) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    var movielist : MutableList<PopularMovies.Result> = mutableListOf()
     val DIFF_CALLBACK = object : DiffUtil.ItemCallback<PopularMovies.Result>() {
 
         override fun areItemsTheSame(
@@ -60,8 +61,10 @@ class PopularMovieListAdapter(private val interaction: Interaction? = null) :
     }
 
     fun submitList(list: List<PopularMovies.Result>) {
-        differ.submitList(list)
+        movielist.addAll(list)
+        differ.submitList(movielist)
     }
+
 
     class PopularMovieViewHolder
     constructor(
@@ -84,6 +87,7 @@ class PopularMovieListAdapter(private val interaction: Interaction? = null) :
     }
 
     interface Interaction {
+
         fun onItemSelected(position: Int, item: PopularMovies.Result)
     }
 }

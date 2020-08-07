@@ -1,10 +1,10 @@
 package com.saiful.moviestvseries.view.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -12,6 +12,7 @@ import com.saiful.moviestvseries.databinding.FragmentMoviesBinding
 import com.saiful.moviestvseries.util.DataState
 import com.saiful.moviestvseries.util.ItemDecorator
 import com.saiful.moviestvseries.view.adapter.PopularMovieListAdapter
+import com.saiful.moviestvseries.view.adapter.TvSeriesPaginationListner
 import com.saiful.moviestvseries.view.model.PopularMovies
 import com.saiful.moviestvseries.view.viewModel.MainStateEvent
 import com.saiful.moviestvseries.view.viewModel.MainViewModel
@@ -29,12 +30,8 @@ class MoviesFragment : Fragment(), PopularMovieListAdapter.Interaction
 
     lateinit var movieListAdapter : PopularMovieListAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-
-        }
-    }
+    private val isLastPage = false
+    private var isLoading = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,24 +51,50 @@ class MoviesFragment : Fragment(), PopularMovieListAdapter.Interaction
     }
 
     private fun initRecycler(){
+        val layout  = GridLayoutManager(activity, 3)
+
         binding.recyclerview.apply {
-            layoutManager = GridLayoutManager(activity, 3)
+            layoutManager = layout
             val itemDecorator = ItemDecorator()
+            setHasFixedSize(true)
             addItemDecoration(itemDecorator)
             movieListAdapter = PopularMovieListAdapter(this@MoviesFragment)
             adapter = movieListAdapter
         }
+
+        binding.recyclerview.addOnScrollListener(object: TvSeriesPaginationListner(layout){
+            override fun loadMoreItems() {
+                isLoading = true
+                PAGE_START++
+                viewModel.setStateEvent(MainStateEvent.GetPopularMovies)
+
+            }
+
+            override fun isLastPage(): Boolean {
+                return isLastPage;
+            }
+
+            override fun isLoading(): Boolean {
+                return isLoading;
+            }
+
+        })
     }
+
 
     private fun subscribeObserver() {
         viewModel.dataStateForMovies.observe(viewLifecycleOwner, Observer { dataState ->
             when(dataState){
                 is DataState.Success<List<PopularMovies.Result>> -> {
+
                     movieListAdapter.submitList(dataState.data)
+                    isLoading = false
+                    movieListAdapter.notifyDataSetChanged()
                     binding.progressBar.visibility = View.GONE
                 }
                 is DataState.Error -> {
                     binding.txtError.text =  dataState.Exception.message.toString()
+                    binding.txtError.visibility = View.VISIBLE
                     binding.progressBar.visibility = View.GONE
                 }
                 is DataState.Loading -> {

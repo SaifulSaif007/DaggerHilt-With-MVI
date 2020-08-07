@@ -12,8 +12,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.saiful.moviestvseries.databinding.FragmentTvSeriesBinding
 import com.saiful.moviestvseries.util.DataState
 import com.saiful.moviestvseries.util.ItemDecorator
+import com.saiful.moviestvseries.view.adapter.MoviePaginationListner
 import com.saiful.moviestvseries.view.adapter.PopularMovieListAdapter
 import com.saiful.moviestvseries.view.adapter.PopularTvSeriesListAdapter
+import com.saiful.moviestvseries.view.adapter.TvSeriesPaginationListner
 import com.saiful.moviestvseries.view.model.PopularTVSeries
 import com.saiful.moviestvseries.view.viewModel.MainStateEvent
 import com.saiful.moviestvseries.view.viewModel.MainViewModel
@@ -32,12 +34,8 @@ class TVSeriesFragment : Fragment(), PopularTvSeriesListAdapter.Interaction {
 
     lateinit var tvSeriesListAdapter : PopularTvSeriesListAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-
-        }
-    }
+    private val isLastPage = false
+    private var isLoading = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,24 +56,49 @@ class TVSeriesFragment : Fragment(), PopularTvSeriesListAdapter.Interaction {
     }
 
     private fun initRecycler(){
+        val layout  = GridLayoutManager(activity, 3)
+
         binding.recyclerview.apply {
-            layoutManager = GridLayoutManager(activity, 3)
+            layoutManager = layout
             val itemDecorator = ItemDecorator()
+            setHasFixedSize(true)
             addItemDecoration(itemDecorator)
             tvSeriesListAdapter = PopularTvSeriesListAdapter(this@TVSeriesFragment)
             adapter = tvSeriesListAdapter
         }
+
+        binding.recyclerview.addOnScrollListener(object: TvSeriesPaginationListner(layout){
+            override fun loadMoreItems() {
+                isLoading = true
+                PAGE_START++
+                viewModel.setStateEvent(MainStateEvent.GetPopularTVSeries)
+            }
+
+            override fun isLastPage(): Boolean {
+                return isLastPage;
+            }
+
+            override fun isLoading(): Boolean {
+                return isLoading;
+            }
+
+        })
     }
+
+
 
     private fun subscribeObserver() {
         viewModel.dataStateForTVSeries.observe(viewLifecycleOwner, Observer { dataState ->
             when(dataState){
                 is DataState.Success<List<PopularTVSeries.Result>> -> {
                     tvSeriesListAdapter.submitList(dataState.data)
+                    isLoading = false
+                    tvSeriesListAdapter.notifyDataSetChanged()
                     binding.progressBar.visibility = View.GONE
                 }
                 is DataState.Error -> {
                     binding.txtError.text =  dataState.Exception.message.toString()
+                    binding.txtError.visibility = View.VISIBLE
                     binding.progressBar.visibility = View.GONE
                 }
                 is DataState.Loading -> {

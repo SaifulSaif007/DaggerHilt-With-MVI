@@ -7,15 +7,15 @@ data class PopularTVSeries (
     val totalResults: Int
 ) {
     data class Result(
-        val backdropPath: String,
-        val firstAirDate: String,
+        val backdropPath: String?=null,
+        val firstAirDate: String?=null,
         val id: Int,
-        val name: String,
-        val originalLanguage: String,
-        val overview: String,
-        val popularity: Double,
-        val posterPath: String,
-        val voteAverage: Double,
-        val voteCount: Int
+        val name: String?=null,
+        val originalLanguage: String?=null,
+        val overview: String?=null,
+        val popularity: Double?=null,
+        val posterPath: String?=null,
+        val voteAverage: Double?=null,
+        val voteCount: Int?=null
     )
 }
