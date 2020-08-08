@@ -1,16 +1,21 @@
 package com.saiful.moviestvseries.view.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
+import com.saiful.moviestvseries.R
 import com.saiful.moviestvseries.databinding.FragmentMoviesBinding
 import com.saiful.moviestvseries.util.DataState
 import com.saiful.moviestvseries.util.ItemDecorator
+import com.saiful.moviestvseries.view.adapter.MoviePaginationListner
 import com.saiful.moviestvseries.view.adapter.PopularMovieListAdapter
 import com.saiful.moviestvseries.view.adapter.TvSeriesPaginationListner
 import com.saiful.moviestvseries.view.model.PopularMovies
@@ -37,6 +42,7 @@ class MoviesFragment : Fragment(), PopularMovieListAdapter.Interaction
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        MoviePaginationListner.PAGE_START = 1
         _binding = FragmentMoviesBinding.inflate(inflater, container, false)
         return  binding.root
 
@@ -62,7 +68,7 @@ class MoviesFragment : Fragment(), PopularMovieListAdapter.Interaction
             adapter = movieListAdapter
         }
 
-        binding.recyclerview.addOnScrollListener(object: TvSeriesPaginationListner(layout){
+        binding.recyclerview.addOnScrollListener(object: MoviePaginationListner(layout){
             override fun loadMoreItems() {
                 isLoading = true
                 PAGE_START++
@@ -80,7 +86,6 @@ class MoviesFragment : Fragment(), PopularMovieListAdapter.Interaction
 
         })
     }
-
 
     private fun subscribeObserver() {
         viewModel.dataStateForMovies.observe(viewLifecycleOwner, Observer { dataState ->
@@ -111,7 +116,8 @@ class MoviesFragment : Fragment(), PopularMovieListAdapter.Interaction
     }
 
     override fun onItemSelected(position: Int, item: PopularMovies.Result) {
-        println("Debug  $position")
-        println("Debug  $item")
+        val movie_id  = bundleOf("movie_id" to  item.id)
+        Navigation.findNavController(binding.root).navigate(R.id.action_moviesFragment_to_movieDetailsFragment, movie_id)
+
     }
 }

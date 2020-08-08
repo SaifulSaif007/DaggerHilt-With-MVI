@@ -8,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
+import com.saiful.moviestvseries.R
 import com.saiful.moviestvseries.databinding.FragmentTvSeriesBinding
 import com.saiful.moviestvseries.util.DataState
 import com.saiful.moviestvseries.util.ItemDecorator
@@ -41,7 +43,7 @@ class TVSeriesFragment : Fragment(), PopularTvSeriesListAdapter.Interaction {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        TvSeriesPaginationListner.PAGE_START = 1
         _binding = FragmentTvSeriesBinding.inflate(layoutInflater, container, false)
         return binding.root
 
@@ -114,7 +116,6 @@ class TVSeriesFragment : Fragment(), PopularTvSeriesListAdapter.Interaction {
     }
 
     override fun onItemSelected(position: Int, item: PopularTVSeries.Result) {
-        println("Debug  $position")
-        println("Debug  $item")
+        Navigation.findNavController(binding.root).navigate(R.id.action_TVSeriesFragment_to_seriesDetailsFragment)
     }
 }

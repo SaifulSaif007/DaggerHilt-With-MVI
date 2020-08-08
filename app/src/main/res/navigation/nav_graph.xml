@@ -8,10 +8,28 @@
         android:id="@+id/moviesFragment"
         android:name="com.saiful.moviestvseries.view.ui.MoviesFragment"
         android:label="Popular Movies"
-        tools:layout="@layout/fragment_movies" />
+        tools:layout="@layout/fragment_movies" >
+        <action
+            android:id="@+id/action_moviesFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/TVSeriesFragment"
         android:name="com.saiful.moviestvseries.view.ui.TVSeriesFragment"
         android:label="Popular TV Series"
-        tools:layout="@layout/fragment_tv_series" />
+        tools:layout="@layout/fragment_tv_series" >
+        <action
+            android:id="@+id/action_TVSeriesFragment_to_seriesDetailsFragment"
+            app:destination="@id/seriesDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/movieDetailsFragment"
+        android:name="com.saiful.moviestvseries.view.ui.MovieDetailsFragment"
+        android:label="Movie details"
+        tools:layout="@layout/fragment_movie_details" />
+    <fragment
+        android:id="@+id/seriesDetailsFragment"
+        android:name="com.saiful.moviestvseries.view.ui.SeriesDetailsFragment"
+        android:label="Series details"
+        tools:layout="@layout/fragment_series_details" />
 </navigation>
