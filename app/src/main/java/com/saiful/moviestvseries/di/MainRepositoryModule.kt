@@ -1,8 +1,8 @@
 package com.saiful.moviestvseries.di
 
 import com.saiful.moviestvseries.services.network.abstraction.RetrofitService
-import com.saiful.moviestvseries.services.network.mapper.MovieNetworkMapper
-import com.saiful.moviestvseries.services.network.mapper.TVSeriesNetworkMapper
+import com.saiful.moviestvseries.services.network.mapper.PopularMoviesNetworkMapper
+import com.saiful.moviestvseries.services.network.mapper.PopularTVSeriesNetworkMapper
 import com.saiful.moviestvseries.services.repository.MovieRepository
 import com.saiful.moviestvseries.services.repository.TVSeriesRepository
 import dagger.Module
@@ -20,18 +20,18 @@ object MainRepositoryModule {
     @Provides
     fun provideMovieRepo(
         retrofit : RetrofitService,
-        movieMapper : MovieNetworkMapper
+        popularMoviesMapper : PopularMoviesNetworkMapper
     ) : MovieRepository {
-        return MovieRepository(retrofit, movieMapper)
+        return MovieRepository(retrofit, popularMoviesMapper)
     }
 
     @Singleton
     @Provides
     fun provideTvSeriesRepo(
         retrofit: RetrofitService,
-        tvSeriesMapper : TVSeriesNetworkMapper
+        popularTvSeriesMapper : PopularTVSeriesNetworkMapper
     ) : TVSeriesRepository {
-        return TVSeriesRepository(retrofit, tvSeriesMapper)
+        return TVSeriesRepository(retrofit, popularTvSeriesMapper)
     }
 
 }

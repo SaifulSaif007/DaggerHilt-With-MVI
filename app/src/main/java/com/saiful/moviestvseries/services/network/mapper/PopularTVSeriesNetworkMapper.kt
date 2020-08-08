@@ -5,7 +5,7 @@ import com.saiful.moviestvseries.services.network.model.PopularTVSeriesNetworkEn
 import com.saiful.moviestvseries.util.EntityMapper
 import javax.inject.Inject
 
-class TVSeriesNetworkMapper
+class PopularTVSeriesNetworkMapper
 @Inject constructor() :
     EntityMapper<PopularTVSeriesNetworkEntity.Result, PopularTVSeries.Result>
 {

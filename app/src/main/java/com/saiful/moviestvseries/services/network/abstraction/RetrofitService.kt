@@ -1,8 +1,11 @@
 package com.saiful.moviestvseries.services.network.abstraction
 
+import com.saiful.moviestvseries.services.network.model.MovieDetailsNetworkEntity
 import com.saiful.moviestvseries.services.network.model.PopularMoviesNetworkEntity
 import com.saiful.moviestvseries.services.network.model.PopularTVSeriesNetworkEntity
+import com.saiful.moviestvseries.services.network.model.SeriesDetailsNetworkEntity
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface RetrofitService {
@@ -24,4 +27,19 @@ interface RetrofitService {
     ) : PopularTVSeriesNetworkEntity
 
 
+    //https://api.themoviedb.org/3/movie/542?api_key=697bf3a9a65fafc6982838746d30694b
+
+    @GET("movie/{id}")
+    suspend fun getMovieDetails(
+        @Path("id") id: Int,
+        @Query("api_key") key: String
+    ) : MovieDetailsNetworkEntity
+
+    //https://api.themoviedb.org/3/tv/424?api_key=697bf3a9a65fafc6982838746d30694b
+
+    @GET("tv/{id}")
+    suspend fun getSeriesDetails(
+        @Path("id") id: Int,
+        @Query("api_key") key: String
+    ) : SeriesDetailsNetworkEntity
 }

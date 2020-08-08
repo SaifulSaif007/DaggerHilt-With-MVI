@@ -2,9 +2,11 @@ package com.saiful.moviestvseries.services.repository
 
 import com.saiful.moviestvseries.view.model.PopularMovies
 import com.saiful.moviestvseries.services.network.abstraction.RetrofitService
-import com.saiful.moviestvseries.services.network.mapper.MovieNetworkMapper
+import com.saiful.moviestvseries.services.network.mapper.MovieDetailsNetworkMapper
+import com.saiful.moviestvseries.services.network.mapper.PopularMoviesNetworkMapper
 import com.saiful.moviestvseries.util.DataState
 import com.saiful.moviestvseries.view.adapter.MoviePaginationListner.Companion.PAGE_START
+import com.saiful.moviestvseries.view.model.MovieDetails
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.lang.Exception
@@ -12,7 +14,8 @@ import java.lang.Exception
 class MovieRepository
 constructor(
     private val retrofitService: RetrofitService,
-    private val movieMapper : MovieNetworkMapper
+    private val popularMoviesMapper : PopularMoviesNetworkMapper,
+    private val movieDetailsMapper : MovieDetailsNetworkMapper
 ) {
 
     suspend fun getPopularMovies() : Flow<DataState<List<PopularMovies.Result>>> = flow {
@@ -24,11 +27,29 @@ constructor(
                 PAGE_START
             )
 
-            val movies = movieMapper.mapFromEntityList(networkMovies.results)
+            val movies = popularMoviesMapper.mapFromEntityList(networkMovies.results)
             emit(DataState.Success(movies))
 
         }
         catch (e: Exception){
+            emit(DataState.Error(e))
+        }
+    }
+
+    suspend fun getMovieDetails() : Flow<DataState<MovieDetails>> = flow {
+        emit(DataState.Loading)
+
+        try {
+            val networkDetails = retrofitService.getMovieDetails(
+                542,
+                "697bf3a9a65fafc6982838746d30694b"
+            )
+
+            val details = movieDetailsMapper.mapFromEntity(networkDetails)
+            emit(DataState.Success(details))
+
+        }
+        catch (e : Exception){
             emit(DataState.Error(e))
         }
     }
