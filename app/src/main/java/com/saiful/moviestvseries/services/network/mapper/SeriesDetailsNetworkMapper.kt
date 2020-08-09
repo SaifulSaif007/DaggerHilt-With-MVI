@@ -6,7 +6,9 @@ import com.saiful.moviestvseries.view.model.SeriesDetails
 import javax.inject.Inject
 
 class SeriesDetailsNetworkMapper
-@Inject constructor() : EntityMapper<SeriesDetailsNetworkEntity, SeriesDetails> {
+@Inject constructor() :
+    EntityMapper<SeriesDetailsNetworkEntity, SeriesDetails> {
+
     override fun mapFromEntity(entity: SeriesDetailsNetworkEntity): SeriesDetails {
         return SeriesDetails(
             backdropPath = entity.backdropPath,
