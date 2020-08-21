@@ -86,13 +86,13 @@ constructor(
 }
 
 
-sealed class MainStateEvent {
+sealed class MainStateEvent() {
 
     object GetPopularMovies : MainStateEvent()
 
     object GetPopularTVSeries : MainStateEvent()
 
-    object GetMovieDetails : MainStateEvent()
+    class GetMovieDetails() : MainStateEvent()
 
     object GetSeriesDetails : MainStateEvent()
 
