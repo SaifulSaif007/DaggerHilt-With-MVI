@@ -1,5 +1,6 @@
 package com.saiful.moviestvseries.view.viewModel
 
+import android.util.Log
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
@@ -92,7 +93,7 @@ sealed class MainStateEvent() {
 
     object GetPopularTVSeries : MainStateEvent()
 
-    class GetMovieDetails() : MainStateEvent()
+    object GetMovieDetails : MainStateEvent()
 
     object GetSeriesDetails : MainStateEvent()
 

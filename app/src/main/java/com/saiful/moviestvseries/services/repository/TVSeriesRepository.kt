@@ -8,6 +8,7 @@ import com.saiful.moviestvseries.util.DataState
 import com.saiful.moviestvseries.view.adapter.TvSeriesPaginationListner.Companion.PAGE_START
 import com.saiful.moviestvseries.view.model.PopularTVSeries
 import com.saiful.moviestvseries.view.model.SeriesDetails
+import com.saiful.moviestvseries.view.ui.SeriesDetailsFragment.Companion.SeriesId
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.lang.Exception
@@ -41,7 +42,7 @@ constructor(
 
         try {
             val networkDetails = retrofitService.getSeriesDetails(
-                424,
+                SeriesId,
                 "697bf3a9a65fafc6982838746d30694b"
             )
 

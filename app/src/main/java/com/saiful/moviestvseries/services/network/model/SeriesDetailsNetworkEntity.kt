@@ -31,7 +31,7 @@ data class SeriesDetailsNetworkEntity(
     @SerializedName("networks")
     val networks: List<Network?>? = null,
     @SerializedName("next_episode_to_air")
-    val nextEpisodeToAir: String? = null,
+    val nextEpisodeToAir: Any? = null,
     @SerializedName("number_of_episodes")
     val numberOfEpisodes: Int? = null,
     @SerializedName("number_of_seasons")
@@ -101,7 +101,7 @@ data class SeriesDetailsNetworkEntity(
         @SerializedName("still_path")
         val stillPath: String? = null,
         @SerializedName("vote_average")
-        val voteAverage: Int? = null,
+        val voteAverage: Double? = null,
         @SerializedName("vote_count")
         val voteCount: Int? = null
     )

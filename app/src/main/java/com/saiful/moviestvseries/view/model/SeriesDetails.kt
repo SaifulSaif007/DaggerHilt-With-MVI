@@ -10,7 +10,7 @@ class SeriesDetails (
     val lastAirDate: String? = null,
     val lastEpisodeToAir: SeriesDetailsNetworkEntity.LastEpisodeToAir? = null,
     val name: String? = null,
-    val nextEpisodeToAir: String? = null,
+    val nextEpisodeToAir: Any? = null,
     val numberOfEpisodes: Int? = null,
     val numberOfSeasons: Int? = null,
     val originalName: String? = null,

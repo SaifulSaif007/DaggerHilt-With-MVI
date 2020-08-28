@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
@@ -116,6 +117,7 @@ class TVSeriesFragment : Fragment(), PopularTvSeriesListAdapter.Interaction {
     }
 
     override fun onItemSelected(position: Int, item: PopularTVSeries.Result) {
-        Navigation.findNavController(binding.root).navigate(R.id.action_TVSeriesFragment_to_seriesDetailsFragment)
+        val series_id = bundleOf("series_id" to item.id)
+        Navigation.findNavController(binding.root).navigate(R.id.action_TVSeriesFragment_to_seriesDetailsFragment, series_id)
     }
 }
