@@ -76,7 +76,7 @@ class MovieDetailsFragment : Fragment() {
                     binding.overview.text = dataState.data.overview
 
                     Glide.with(activity?.applicationContext!!)
-                        .load("http://image.tmdb.org/t/p/w780" + dataState.data.posterPath)
+                        .load("http://image.tmdb.org/t/p/w500" + dataState.data.posterPath)
                         .into(binding.posterImage.poster_image)
                 }
                 is DataState.Error -> {

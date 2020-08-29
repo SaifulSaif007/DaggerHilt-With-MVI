@@ -35,7 +35,7 @@ data class MovieDetailsNetworkEntity(
     @SerializedName("release_date")
     val releaseDate: String? = null,
     @SerializedName("revenue")
-    val revenue: Int? = null,
+    val revenue: Double? = null,
     @SerializedName("runtime")
     val runtime: Int? = null,
     @SerializedName("spoken_languages")

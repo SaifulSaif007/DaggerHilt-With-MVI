@@ -11,7 +11,7 @@ data class MovieDetails(
     val overview: String? = null,
     val posterPath: String? = null,
     val releaseDate: String? = null,
-    val revenue: Int? = null,
+    val revenue: Double? = null,
     val spokenLanguages: List<MovieDetailsNetworkEntity.SpokenLanguage?>? = null,
     val status: String? = null,
     val tagline: String? = null,
