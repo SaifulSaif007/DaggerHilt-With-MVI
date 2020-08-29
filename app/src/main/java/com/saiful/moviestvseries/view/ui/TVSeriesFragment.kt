@@ -116,6 +116,7 @@ class TVSeriesFragment : Fragment(), PopularTvSeriesListAdapter.Interaction {
         _binding = null
     }
 
+
     override fun onItemSelected(position: Int, item: PopularTVSeries.Result) {
         val series_id = bundleOf("series_id" to item.id)
         Navigation.findNavController(binding.root).navigate(R.id.action_TVSeriesFragment_to_seriesDetailsFragment, series_id)

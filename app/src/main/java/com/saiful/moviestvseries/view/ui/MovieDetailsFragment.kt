@@ -1,7 +1,6 @@
 package com.saiful.moviestvseries.view.ui
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,11 +8,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
+import com.saiful.moviestvseries.R
 import com.saiful.moviestvseries.databinding.FragmentMovieDetailsBinding
+import com.saiful.moviestvseries.services.network.model.MovieDetailsNetworkEntity
 import com.saiful.moviestvseries.util.DataState
 import com.saiful.moviestvseries.view.model.MovieDetails
 import com.saiful.moviestvseries.view.viewModel.MainStateEvent
@@ -45,6 +47,7 @@ class MovieDetailsFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -52,6 +55,7 @@ class MovieDetailsFragment : Fragment() {
             requireActivity().bottomNavigationView.visibility = View.GONE
             requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
             (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+
         }
 
         Log.d("id", arguments?.getInt("movie_id").toString())
@@ -69,10 +73,10 @@ class MovieDetailsFragment : Fragment() {
                 is DataState.Success<MovieDetails> -> {
                     binding.movieTitle.text = dataState.data.title
                     binding.movieTagline.text = dataState.data.tagline
-                    binding.genres.text = dataState.data.genres?.get(1).toString()
-                    binding.rating.text = dataState.data.voteAverage.toString() +  "(" +dataState.data.voteCount.toString() + ")"
-                    binding.Duration.text = dataState.data.status
-                    binding.ReleaseDate.text = dataState.data.releaseDate
+                    binding.genres.text =  MovieGenres(dataState.data.genres)
+                    binding.rating.text = "Rating : "  + dataState.data.voteAverage.toString() +  "  ( " +dataState.data.voteCount.toString() + " )"
+                    binding.Duration.text = "Status : " + dataState.data.status
+                    binding.ReleaseDate.text = "Release Date : " + dataState.data.releaseDate
                     binding.overview.text = dataState.data.overview
 
                     Glide.with(activity?.applicationContext!!)
@@ -91,5 +95,15 @@ class MovieDetailsFragment : Fragment() {
         requireActivity().bottomNavigationView.visibility = View.VISIBLE
         requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         (activity as AppCompatActivity?)!!.supportActionBar!!.show()
+    }
+
+    private fun MovieGenres(list: List<MovieDetailsNetworkEntity.Genre?>?) : String{
+        var genres : String = ""
+        if (list != null) {
+            for (element in list){
+                genres = genres +  "\u25AA " + element?.name + "   "
+            }
+        }
+        return genres
     }
 }

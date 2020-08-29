@@ -25,11 +25,9 @@
     <fragment
         android:id="@+id/movieDetailsFragment"
         android:name="com.saiful.moviestvseries.view.ui.MovieDetailsFragment"
-        android:label="Movie details"
         tools:layout="@layout/fragment_movie_details" />
     <fragment
         android:id="@+id/seriesDetailsFragment"
         android:name="com.saiful.moviestvseries.view.ui.SeriesDetailsFragment"
-        android:label="Series details"
         tools:layout="@layout/fragment_series_details" />
 </navigation>

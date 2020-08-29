@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.saiful.moviestvseries.databinding.FragmentSeriesDetailsBinding
+import com.saiful.moviestvseries.services.network.model.SeriesDetailsNetworkEntity
 import com.saiful.moviestvseries.util.DataState
 import com.saiful.moviestvseries.view.model.SeriesDetails
 import com.saiful.moviestvseries.view.viewModel.MainStateEvent
@@ -66,11 +67,11 @@ class SeriesDetailsFragment : Fragment() {
             when(dataState){
                 is DataState.Success<SeriesDetails> -> {
                     binding.SeriesName.text = dataState.data.name
-                    binding.seriesStatus.text = dataState.data.status
-                    binding.seriesGenres.text = dataState.data.genres?.get(1).toString()
-                    binding.seriesRating.text = dataState.data.voteAverage.toString() + "(" + dataState.data.voteCount.toString() + ")"
-                    binding.seriesFirstAirDate.text = dataState.data.firstAirDate
-                    binding.seriesNoOfSeason.text = dataState.data.numberOfSeasons.toString()
+                    binding.seriesStatus.text = SeriesSts(dataState.data.status)
+                    binding.seriesGenres.text =  SeriesGenres(dataState.data.genres)
+                    binding.seriesRating.text = "Rating : " + dataState.data.voteAverage.toString() + " ( " + dataState.data.voteCount.toString() + " )"
+                    binding.seriesFirstAirDate.text = "First Air Date : " +  dataState.data.firstAirDate
+                    binding.seriesNoOfSeason.text = "number Of Seasons : " + dataState.data.numberOfSeasons.toString()
                     binding.seriesOverview.text = dataState.data.overview
 
                     Glide.with(activity?.applicationContext!!)
@@ -90,5 +91,25 @@ class SeriesDetailsFragment : Fragment() {
         requireActivity().bottomNavigationView.visibility = View.VISIBLE
         requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         (activity as AppCompatActivity?)!!.supportActionBar!!.show()
+    }
+
+    private fun SeriesGenres(list: List<SeriesDetailsNetworkEntity.Genre?>? ) : String {
+        var genres : String = ""
+        if (list != null) {
+            for (element in list){
+                genres = genres +  "\u25AA " + element?.name + "   "
+            }
+        }
+        return genres
+    }
+
+    public fun SeriesSts(status : String? ) : String {
+        var sts : String = ""
+        when(status.equals("Returning Series")) {
+           true-> sts = "Running"
+            false -> sts = status.toString()
+        }
+
+        return sts
     }
 }
