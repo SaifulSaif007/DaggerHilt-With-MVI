@@ -1,5 +1,6 @@
 package com.saiful.moviestvseries.view.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
@@ -37,7 +39,9 @@ class TVSeriesFragment : Fragment(), PopularTvSeriesListAdapter.Interaction {
 
     lateinit var tvSeriesListAdapter : PopularTvSeriesListAdapter
 
-    private val isLastPage = false
+    private lateinit var  fm : FragmentManager
+
+    private  val isLastPage = false
     private var isLoading = false
 
     override fun onCreateView(
@@ -52,6 +56,8 @@ class TVSeriesFragment : Fragment(), PopularTvSeriesListAdapter.Interaction {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        fm = activity?.supportFragmentManager!!
 
         subscribeObserver()
         viewModel.setStateEvent(MainStateEvent.GetPopularTVSeries)
@@ -117,8 +123,16 @@ class TVSeriesFragment : Fragment(), PopularTvSeriesListAdapter.Interaction {
     }
 
 
+    @SuppressLint("RestrictedApi")
     override fun onItemSelected(position: Int, item: PopularTVSeries.Result) {
-        val series_id = bundleOf("series_id" to item.id)
-        Navigation.findNavController(binding.root).navigate(R.id.action_TVSeriesFragment_to_seriesDetailsFragment, series_id)
+
+        val detailFrag = SeriesDetailsFragment()
+        detailFrag.arguments = bundleOf("series_id" to item.id)
+
+
+        fm.beginTransaction().add(R.id.fragmentContainerView, detailFrag, "series_detail").show(detailFrag).hide(MainActivity.active)
+            .addToBackStack("series")
+            .commit()
+
     }
 }

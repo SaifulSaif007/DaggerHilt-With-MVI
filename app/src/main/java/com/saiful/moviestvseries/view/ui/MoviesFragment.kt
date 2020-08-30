@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
@@ -35,6 +36,8 @@ class MoviesFragment : Fragment(), PopularMovieListAdapter.Interaction
 
     lateinit var movieListAdapter : PopularMovieListAdapter
 
+    private lateinit var  fm : FragmentManager
+
     private val isLastPage = false
     private var isLoading = false
 
@@ -50,6 +53,8 @@ class MoviesFragment : Fragment(), PopularMovieListAdapter.Interaction
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        fm = activity?.supportFragmentManager!!
 
         viewModel.setStateEvent(MainStateEvent.GetPopularMovies)
         subscribeObserver()
@@ -111,13 +116,18 @@ class MoviesFragment : Fragment(), PopularMovieListAdapter.Interaction
     }
 
     override fun onDestroyView() {
+        Log.e("moviefragment", "destroyed")
         super.onDestroyView()
         _binding = null
     }
 
     override fun onItemSelected(position: Int, item: PopularMovies.Result) {
-        val movie_id  = bundleOf("movie_id" to  item.id)
-        Navigation.findNavController(binding.root).navigate(R.id.action_moviesFragment_to_movieDetailsFragment, movie_id)
 
+        val detailFrag = MovieDetailsFragment()
+        detailFrag.arguments = bundleOf("movie_id" to  item.id)
+
+        fm.beginTransaction().add(R.id.fragmentContainerView, detailFrag, "movie_detail").show(detailFrag).hide(MainActivity.active)
+            .addToBackStack("movies")
+            .commit()
     }
 }

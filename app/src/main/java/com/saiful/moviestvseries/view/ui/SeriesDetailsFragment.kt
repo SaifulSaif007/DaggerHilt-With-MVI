@@ -9,9 +9,12 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
+import com.saiful.moviestvseries.R
 import com.saiful.moviestvseries.databinding.FragmentSeriesDetailsBinding
 import com.saiful.moviestvseries.services.network.model.SeriesDetailsNetworkEntity
 import com.saiful.moviestvseries.util.DataState
@@ -32,6 +35,8 @@ class SeriesDetailsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel : MainViewModel by viewModels()
+
+    private lateinit var  fm : FragmentManager
 
     companion object {
         var SeriesId : Int = 0
@@ -56,6 +61,8 @@ class SeriesDetailsFragment : Fragment() {
 
         Log.e("id", arguments?.getInt("series_id").toString())
         SeriesId = arguments?.getInt("series_id")!!
+
+        fm = activity?.supportFragmentManager!!
 
         viewModel.setStateEvent(MainStateEvent.GetSeriesDetails)
         subscribeObserver()
@@ -91,6 +98,12 @@ class SeriesDetailsFragment : Fragment() {
         requireActivity().bottomNavigationView.visibility = View.VISIBLE
         requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         (activity as AppCompatActivity?)!!.supportActionBar!!.show()
+
+        val fragment : Fragment? = fm.findFragmentByTag("series_detail")
+        println(fragment.toString())
+        if (fragment != null) {
+            fm.beginTransaction().hide(fragment)
+        }
     }
 
     private fun SeriesGenres(list: List<SeriesDetailsNetworkEntity.Genre?>? ) : String {
