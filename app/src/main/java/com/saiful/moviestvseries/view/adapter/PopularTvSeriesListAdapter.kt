@@ -1,12 +1,15 @@
 package com.saiful.moviestvseries.view.adapter
 
+import android.transition.Transition
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.saiful.moviestvseries.R
 import com.saiful.moviestvseries.view.model.PopularMovies
 import com.saiful.moviestvseries.view.model.PopularTVSeries
@@ -36,7 +39,6 @@ class PopularTvSeriesListAdapter(private val interaction: Interaction? = null) :
 
     }
     private val differ = AsyncListDiffer(this, DIFF_CALLBACK)
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
@@ -83,7 +85,11 @@ class PopularTvSeriesListAdapter(private val interaction: Interaction? = null) :
 
             Glide.with(itemView.context)
                 .load("http://image.tmdb.org/t/p/w185" + item.posterPath)
+                .transition(DrawableTransitionOptions.withCrossFade(500))
                 .into(itemView.tv_poster_image)
+
+            //itemView.animation = AnimationUtils.loadAnimation(itemView.context, R.anim.item_fade_in_down_to_up)
+
         }
     }
 

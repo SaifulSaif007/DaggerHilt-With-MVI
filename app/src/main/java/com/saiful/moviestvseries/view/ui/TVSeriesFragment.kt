@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
@@ -21,6 +22,7 @@ import com.saiful.moviestvseries.view.adapter.MoviePaginationListner
 import com.saiful.moviestvseries.view.adapter.PopularMovieListAdapter
 import com.saiful.moviestvseries.view.adapter.PopularTvSeriesListAdapter
 import com.saiful.moviestvseries.view.adapter.TvSeriesPaginationListner
+import com.saiful.moviestvseries.view.adapter.TvSeriesPaginationListner.Companion.PAGE_START
 import com.saiful.moviestvseries.view.model.PopularTVSeries
 import com.saiful.moviestvseries.view.viewModel.MainStateEvent
 import com.saiful.moviestvseries.view.viewModel.MainViewModel
@@ -111,7 +113,7 @@ class TVSeriesFragment : Fragment(), PopularTvSeriesListAdapter.Interaction {
                     binding.progressBar.visibility = View.GONE
                 }
                 is DataState.Loading -> {
-                    binding.progressBar.visibility = View.VISIBLE
+                        binding.progressBar.visibility = View.VISIBLE
                 }
             }
         })
@@ -132,6 +134,7 @@ class TVSeriesFragment : Fragment(), PopularTvSeriesListAdapter.Interaction {
 
         fm.beginTransaction().add(R.id.fragmentContainerView, detailFrag, "series_detail").show(detailFrag).hide(MainActivity.active)
             .addToBackStack("series")
+            .setCustomAnimations(R.anim.fragment_open_enter,R.anim.fragment_close_exit, R.anim.nav_default_pop_enter_anim, R.anim.nav_default_pop_exit_anim)
             .commit()
 
     }

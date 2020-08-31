@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.saiful.moviestvseries.R
 import com.saiful.moviestvseries.view.model.PopularMovies
 import com.saiful.moviestvseries.view.ui.MoviesFragment
@@ -82,6 +83,7 @@ class PopularMovieListAdapter(private val interaction: Interaction? = null) :
 
             Glide.with(itemView.context)
                 .load("http://image.tmdb.org/t/p/w185" + item.posterPath)
+                .transition(DrawableTransitionOptions.withCrossFade(500))
                 .into(itemView.poster_image)
         }
     }

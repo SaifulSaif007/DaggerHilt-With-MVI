@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.saiful.moviestvseries.R
 import com.saiful.moviestvseries.databinding.FragmentMovieDetailsBinding
 import com.saiful.moviestvseries.services.network.model.MovieDetailsNetworkEntity
@@ -81,6 +82,8 @@ class MovieDetailsFragment : Fragment() {
 
                     Glide.with(activity?.applicationContext!!)
                         .load("http://image.tmdb.org/t/p/w500" + dataState.data.posterPath)
+                        .transition(DrawableTransitionOptions.withCrossFade(600))
+                        .error(R.drawable.nature)
                         .into(binding.posterImage.poster_image)
                 }
                 is DataState.Error -> {

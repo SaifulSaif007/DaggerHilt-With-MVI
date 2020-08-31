@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.saiful.moviestvseries.R
 import com.saiful.moviestvseries.databinding.FragmentSeriesDetailsBinding
 import com.saiful.moviestvseries.services.network.model.SeriesDetailsNetworkEntity
@@ -68,7 +69,7 @@ class SeriesDetailsFragment : Fragment() {
         subscribeObserver()
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "ResourceType")
     private fun subscribeObserver() {
         viewModel.dataStateSeriesDetails.observe(viewLifecycleOwner, Observer { dataState->
             when(dataState){
@@ -83,6 +84,8 @@ class SeriesDetailsFragment : Fragment() {
 
                     Glide.with(activity?.applicationContext!!)
                         .load("http://image.tmdb.org/t/p/w500" + dataState.data.posterPath)
+                        .transition(DrawableTransitionOptions.withCrossFade(600))
+                        .error(R.drawable.nature)
                         .into(binding.posterImage.poster_image)
                 }
                 is DataState.Error -> {

@@ -55,7 +55,6 @@ class MoviesFragment : Fragment(), PopularMovieListAdapter.Interaction
         super.onViewCreated(view, savedInstanceState)
 
         fm = activity?.supportFragmentManager!!
-
         viewModel.setStateEvent(MainStateEvent.GetPopularMovies)
         subscribeObserver()
         initRecycler()
@@ -128,6 +127,7 @@ class MoviesFragment : Fragment(), PopularMovieListAdapter.Interaction
 
         fm.beginTransaction().add(R.id.fragmentContainerView, detailFrag, "movie_detail").show(detailFrag).hide(MainActivity.active)
             .addToBackStack("movies")
+            .setCustomAnimations(R.anim.fragment_open_enter,R.anim.fragment_close_exit, R.anim.nav_default_pop_enter_anim, R.anim.nav_default_pop_exit_anim)
             .commit()
     }
 }
