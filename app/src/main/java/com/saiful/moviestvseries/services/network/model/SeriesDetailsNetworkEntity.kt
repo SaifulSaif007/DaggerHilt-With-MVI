@@ -59,7 +59,10 @@ data class SeriesDetailsNetworkEntity(
     @SerializedName("vote_average")
     val voteAverage: Double? = null,
     @SerializedName("vote_count")
-    val voteCount: Int? = null
+    val voteCount: Int? = null,
+    @SerializedName("videos")
+    val videos : SeriesDetailsNetworkEntity.Videos? = null
+
 ) {
     data class CreatedBy(
         @SerializedName("credit_id")
@@ -143,5 +146,23 @@ data class SeriesDetailsNetworkEntity(
         val posterPath: String? = null,
         @SerializedName("season_number")
         val seasonNumber: Int? = null
+    )
+    data class Videos(
+        @SerializedName("results")
+        val results : List<VideoResult>? = null
+    )
+    data class VideoResult(
+        @SerializedName("id")
+        val video_id: String?,
+        @SerializedName("key")
+        val key: String? = null,
+        @SerializedName("name")
+        val name: String? = null,
+        @SerializedName("site")
+        val site: String? = null,
+        @SerializedName("size")
+        val size: String? = null,
+        @SerializedName("type")
+        val type: String? = null
     )
 }

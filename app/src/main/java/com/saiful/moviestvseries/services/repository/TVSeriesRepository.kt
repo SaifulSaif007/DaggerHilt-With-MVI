@@ -9,10 +9,12 @@ import com.saiful.moviestvseries.view.adapter.TvSeriesPaginationListner.Companio
 import com.saiful.moviestvseries.view.model.PopularTVSeries
 import com.saiful.moviestvseries.view.model.SeriesDetails
 import com.saiful.moviestvseries.view.ui.SeriesDetailsFragment.Companion.SeriesId
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.lang.Exception
 
+@ExperimentalCoroutinesApi
 class TVSeriesRepository
 constructor(
     private val retrofitService: RetrofitService,
@@ -36,6 +38,7 @@ constructor(
             emit(DataState.Error(e))
         }
     }
+
 
     suspend fun getSeriesDetails() : Flow<DataState<SeriesDetails>> = flow {
         emit(DataState.Loading)

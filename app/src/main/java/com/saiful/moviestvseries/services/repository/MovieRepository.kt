@@ -8,10 +8,12 @@ import com.saiful.moviestvseries.util.DataState
 import com.saiful.moviestvseries.view.adapter.MoviePaginationListner.Companion.PAGE_START
 import com.saiful.moviestvseries.view.model.MovieDetails
 import com.saiful.moviestvseries.view.ui.MovieDetailsFragment.Companion.MovieId
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.lang.Exception
 
+@ExperimentalCoroutinesApi
 class MovieRepository
 constructor(
     private val retrofitService: RetrofitService,
@@ -36,6 +38,7 @@ constructor(
             emit(DataState.Error(e))
         }
     }
+
 
     suspend fun getMovieDetails() : Flow<DataState<MovieDetails>> = flow {
         emit(DataState.Loading)

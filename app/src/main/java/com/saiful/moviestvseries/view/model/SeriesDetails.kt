@@ -20,5 +20,6 @@ class SeriesDetails (
     val status: String? = null,
     val type: String? = null,
     val voteAverage: Double? = null,
-    val voteCount: Int? = null
+    val voteCount: Int? = null,
+    val videos : SeriesDetailsNetworkEntity.Videos? = null
 )

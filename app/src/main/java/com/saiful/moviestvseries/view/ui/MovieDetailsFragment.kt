@@ -73,8 +73,9 @@ class MovieDetailsFragment : Fragment(), MovieTrailerAdapter.Interaction {
         MovieId = arguments?.getInt("movie_id")!!
 
         viewModel.setStateEvent(MainStateEvent.GetMovieDetails)
-        subscribeObserver()
         initRecycler()
+        subscribeObserver()
+
     }
 
 

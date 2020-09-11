@@ -28,7 +28,9 @@ class SeriesDetailsNetworkMapper
             status = entity.status,
             type = entity.type,
             voteAverage = entity.voteAverage,
-            voteCount = entity.voteCount
+            voteCount = entity.voteCount,
+            videos = entity.videos
+
         )
     }
 }

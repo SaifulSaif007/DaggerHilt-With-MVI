@@ -1,6 +1,9 @@
 package com.saiful.moviestvseries.view.ui
 
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,12 +16,16 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.saiful.moviestvseries.R
 import com.saiful.moviestvseries.databinding.FragmentSeriesDetailsBinding
 import com.saiful.moviestvseries.services.network.model.SeriesDetailsNetworkEntity
 import com.saiful.moviestvseries.util.DataState
+import com.saiful.moviestvseries.util.ItemDecorator
+import com.saiful.moviestvseries.view.adapter.MovieTrailerAdapter
+import com.saiful.moviestvseries.view.adapter.SeriesTrailerAdapter
 import com.saiful.moviestvseries.view.model.SeriesDetails
 import com.saiful.moviestvseries.view.viewModel.MainStateEvent
 import com.saiful.moviestvseries.view.viewModel.MainViewModel
@@ -30,14 +37,14 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class SeriesDetailsFragment : Fragment() {
+class SeriesDetailsFragment : Fragment(), SeriesTrailerAdapter.Interaction {
 
     private var _binding : FragmentSeriesDetailsBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel : MainViewModel by viewModels()
 
-    private lateinit var  fm : FragmentManager
+    lateinit var trailerAdapter: SeriesTrailerAdapter
 
     companion object {
         var SeriesId : Int = 0
@@ -63,10 +70,23 @@ class SeriesDetailsFragment : Fragment() {
         Log.e("id", arguments?.getInt("series_id").toString())
         SeriesId = arguments?.getInt("series_id")!!
 
-        fm = activity?.supportFragmentManager!!
-
         viewModel.setStateEvent(MainStateEvent.GetSeriesDetails)
+        initRecycler()
         subscribeObserver()
+
+    }
+
+    private fun initRecycler(){
+        val layout =  LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        binding.trailerRecycler.apply {
+            layoutManager = layout
+            val itemDecorator = ItemDecorator()
+            setHasFixedSize(true)
+            addItemDecoration(itemDecorator)
+
+            trailerAdapter = SeriesTrailerAdapter(this@SeriesDetailsFragment)
+            adapter = trailerAdapter
+        }
     }
 
     @SuppressLint("SetTextI18n", "ResourceType")
@@ -87,6 +107,9 @@ class SeriesDetailsFragment : Fragment() {
                         .transition(DrawableTransitionOptions.withCrossFade(600))
                         .error(R.drawable.nature)
                         .into(binding.posterImage.poster_image)
+
+                    dataState.data.videos?.results?.let { trailerAdapter.submitList(it) }
+
                 }
                 is DataState.Error -> {
                     Log.e("error", dataState.Exception.toString() )
@@ -122,5 +145,18 @@ class SeriesDetailsFragment : Fragment() {
         }
 
         return sts
+    }
+
+    override fun onItemSelected(position: Int, item: SeriesDetailsNetworkEntity.VideoResult) {
+
+        try {
+            val youtubeIntent  = Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube://" + item.key))
+            youtubeIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(youtubeIntent)
+        }
+        catch (e : ActivityNotFoundException){
+            val otherIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://youtube.com/watch?v=" + item.key))
+            startActivity(otherIntent)
+        }
     }
 }
