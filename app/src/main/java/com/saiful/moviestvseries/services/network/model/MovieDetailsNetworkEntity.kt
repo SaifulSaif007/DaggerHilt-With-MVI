@@ -51,7 +51,9 @@ data class MovieDetailsNetworkEntity(
     @SerializedName("vote_average")
     val voteAverage: Double? = null,
     @SerializedName("vote_count")
-    val voteCount: Int? = null
+    val voteCount: Int? = null,
+    @SerializedName("videos")
+    val videos : Videos? = null
 ) {
     data class Genre(
         @SerializedName("id")
@@ -83,5 +85,24 @@ data class MovieDetailsNetworkEntity(
         val iso6391: String? = null,
         @SerializedName("name")
         val name: String? = null
+    )
+
+    data class Videos(
+        @SerializedName("results")
+        val results : List<VideoResult>? = null
+    )
+    data class VideoResult(
+        @SerializedName("id")
+        val video_id: String?,
+        @SerializedName("key")
+        val key: String? = null,
+        @SerializedName("name")
+        val name: String? = null,
+        @SerializedName("site")
+        val site: String? = null,
+        @SerializedName("size")
+        val size: String? = null,
+        @SerializedName("type")
+        val type: String? = null
     )
 }

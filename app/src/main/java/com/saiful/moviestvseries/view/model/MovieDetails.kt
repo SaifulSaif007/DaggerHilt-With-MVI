@@ -17,5 +17,6 @@ data class MovieDetails(
     val tagline: String? = null,
     val title: String? = null,
     val voteAverage: Double? = null,
-    val voteCount: Int? = null
+    val voteCount: Int? = null,
+    val videos : MovieDetailsNetworkEntity.Videos? = null
     )

@@ -27,19 +27,21 @@ interface RetrofitService {
     ) : PopularTVSeriesNetworkEntity
 
 
-    //https://api.themoviedb.org/3/movie/542?api_key=697bf3a9a65fafc6982838746d30694b
+    //https://api.themoviedb.org/3/movie/542?api_key=697bf3a9a65fafc6982838746d30694b&append_to_response=videos
 
     @GET("movie/{id}")
     suspend fun getMovieDetails(
         @Path("id") id: Int,
-        @Query("api_key") key: String
+        @Query("api_key") key: String,
+        @Query("append_to_response") response: String
     ) : MovieDetailsNetworkEntity
 
-    //https://api.themoviedb.org/3/tv/424?api_key=697bf3a9a65fafc6982838746d30694b
+    //https://api.themoviedb.org/3/tv/424?api_key=697bf3a9a65fafc6982838746d30694b&append_to_response=videos
 
     @GET("tv/{id}")
     suspend fun getSeriesDetails(
         @Path("id") id: Int,
-        @Query("api_key") key: String
+        @Query("api_key") key: String,
+        @Query("append_to_response") response: String
     ) : SeriesDetailsNetworkEntity
 }

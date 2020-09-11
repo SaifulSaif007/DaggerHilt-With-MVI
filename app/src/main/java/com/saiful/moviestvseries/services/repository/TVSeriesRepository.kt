@@ -43,7 +43,8 @@ constructor(
         try {
             val networkDetails = retrofitService.getSeriesDetails(
                 SeriesId,
-                "697bf3a9a65fafc6982838746d30694b"
+                "697bf3a9a65fafc6982838746d30694b",
+                "videos"
             )
 
             val details = seriesDetailsNetworkMapper.mapFromEntity(networkDetails)

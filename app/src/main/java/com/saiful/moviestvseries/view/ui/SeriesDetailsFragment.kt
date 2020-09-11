@@ -102,11 +102,6 @@ class SeriesDetailsFragment : Fragment() {
         requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         (activity as AppCompatActivity?)!!.supportActionBar!!.show()
 
-        val fragment : Fragment? = fm.findFragmentByTag("series_detail")
-        println(fragment.toString())
-        if (fragment != null) {
-            fm.beginTransaction().hide(fragment)
-        }
     }
 
     private fun SeriesGenres(list: List<SeriesDetailsNetworkEntity.Genre?>? ) : String {

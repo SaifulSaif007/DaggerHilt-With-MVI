@@ -24,7 +24,8 @@ class MovieDetailsNetworkMapper
            tagline = entity.tagline,
            title = entity.title,
            voteAverage = entity.voteAverage,
-           voteCount = entity.voteCount
+           voteCount = entity.voteCount,
+           videos = entity.videos
        )
     }
 

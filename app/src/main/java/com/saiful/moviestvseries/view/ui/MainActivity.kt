@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         navigation = mainBinding.bottomNavigationView
 
         active = movieFragment
-        supportActionBar?.title = "Movie"
+        supportActionBar?.title = "Popular Movies"
 
         fm.beginTransaction().replace(R.id.fragmentContainerView, movieFragment, "movies").commit()
         fm.beginTransaction().add(R.id.fragmentContainerView, seriesFragment, "series").hide(seriesFragment).commit()
