@@ -64,9 +64,10 @@ class MovieDetailsFragment : Fragment(), MovieTrailerAdapter.Interaction {
 
         if(activity != null) {
             requireActivity().bottomNavigationView.visibility = View.GONE
-            requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
             (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
 
+            requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+            requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN)
         }
 
         Log.d("id", arguments?.getInt("movie_id").toString())
@@ -124,8 +125,11 @@ class MovieDetailsFragment : Fragment(), MovieTrailerAdapter.Interaction {
     override fun onDetach() {
         super.onDetach()
         requireActivity().bottomNavigationView.visibility = View.VISIBLE
-        requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         (activity as AppCompatActivity?)!!.supportActionBar!!.show()
+
+        requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN)
+        requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+
     }
 
     private fun MovieGenres(list: List<MovieDetailsNetworkEntity.Genre?>?) : String{

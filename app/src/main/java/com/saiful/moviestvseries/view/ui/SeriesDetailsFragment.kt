@@ -63,8 +63,10 @@ class SeriesDetailsFragment : Fragment(), SeriesTrailerAdapter.Interaction {
 
         if(activity != null) {
             requireActivity().bottomNavigationView.visibility = View.GONE
-            requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
             (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+
+            requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+            requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN)
         }
 
         Log.e("id", arguments?.getInt("series_id").toString())
@@ -122,8 +124,10 @@ class SeriesDetailsFragment : Fragment(), SeriesTrailerAdapter.Interaction {
     override fun onDetach() {
         super.onDetach()
         requireActivity().bottomNavigationView.visibility = View.VISIBLE
-        requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         (activity as AppCompatActivity?)!!.supportActionBar!!.show()
+
+        requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN)
+        requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
     }
 
