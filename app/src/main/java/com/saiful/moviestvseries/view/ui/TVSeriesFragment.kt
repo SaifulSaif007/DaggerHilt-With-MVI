@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
+import com.bumptech.glide.RequestManager
 import com.saiful.moviestvseries.R
 import com.saiful.moviestvseries.databinding.FragmentTvSeriesBinding
 import com.saiful.moviestvseries.util.DataState
@@ -36,7 +37,6 @@ class TVSeriesFragment : Fragment(), PopularTvSeriesListAdapter.Interaction {
 
     private var _binding : FragmentTvSeriesBinding? = null
     private val binding get() = _binding!!
-
     private val viewModel : MainViewModel by viewModels()
 
     lateinit var tvSeriesListAdapter : PopularTvSeriesListAdapter
@@ -50,7 +50,7 @@ class TVSeriesFragment : Fragment(), PopularTvSeriesListAdapter.Interaction {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        TvSeriesPaginationListner.PAGE_START = 1
+        PAGE_START = 1
         _binding = FragmentTvSeriesBinding.inflate(layoutInflater, container, false)
         return binding.root
 

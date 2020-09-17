@@ -9,14 +9,19 @@ import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.saiful.moviestvseries.R
 import com.saiful.moviestvseries.view.model.PopularMovies
 import com.saiful.moviestvseries.view.model.PopularTVSeries
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.movie_list_item.view.*
 import kotlinx.android.synthetic.main.movie_list_item.view.poster_image
 import kotlinx.android.synthetic.main.tvseries_list_item.view.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import java.lang.System.load
 
+@ExperimentalCoroutinesApi
 class PopularTvSeriesListAdapter(private val interaction: Interaction? = null) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -83,8 +88,7 @@ class PopularTvSeriesListAdapter(private val interaction: Interaction? = null) :
             itemView.series_title.text = item.name
             itemView.on_air_date.text = item.firstAirDate
 
-            Glide.with(itemView.context)
-                .load("http://image.tmdb.org/t/p/w185" + item.posterPath)
+            Glide.with(context).load("http://image.tmdb.org/t/p/w185" + item.posterPath)
                 .transition(DrawableTransitionOptions.withCrossFade(500))
                 .into(itemView.tv_poster_image)
 

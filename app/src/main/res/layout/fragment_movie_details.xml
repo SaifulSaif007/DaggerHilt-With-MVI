@@ -36,9 +36,9 @@
                     android:id="@+id/poster_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:contentDescription="@string/movie_poster"
                     android:scaleType="centerCrop"
-                    tools:srcCompat="@drawable/nature"
-                    android:contentDescription="@string/movie_poster">
+                    tools:srcCompat="@drawable/nature">
 
                 </ImageView>
 
@@ -203,7 +203,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/Trailer_recyclerView"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
@@ -212,7 +212,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

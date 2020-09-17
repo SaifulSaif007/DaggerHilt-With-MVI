@@ -82,6 +82,7 @@ class MovieDetailsFragment : Fragment(), MovieTrailerAdapter.Interaction {
 
     private fun initRecycler(){
         val layout =  LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+
         binding.TrailerRecyclerView.apply {
             layoutManager = layout
             val itemDecorator = ItemDecorator()
@@ -91,6 +92,7 @@ class MovieDetailsFragment : Fragment(), MovieTrailerAdapter.Interaction {
             trailerAdapter = MovieTrailerAdapter(this@MovieDetailsFragment)
             adapter = trailerAdapter
         }
+
 
     }
 

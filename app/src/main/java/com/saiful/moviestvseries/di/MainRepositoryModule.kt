@@ -11,11 +11,13 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Singleton
 
 
 @InstallIn(ApplicationComponent::class)
 @Module
+@ExperimentalCoroutinesApi
 object MainRepositoryModule {
 
     @Singleton
@@ -27,6 +29,7 @@ object MainRepositoryModule {
     ) : MovieRepository {
         return MovieRepository(retrofit, popularMoviesMapper, movieDetailsMapper)
     }
+
 
     @Singleton
     @Provides
