@@ -6,6 +6,7 @@ import com.saiful.moviestvseries.services.network.mapper.MovieDetailsNetworkMapp
 import com.saiful.moviestvseries.services.network.mapper.PopularMoviesNetworkMapper
 import com.saiful.moviestvseries.util.DataState
 import com.saiful.moviestvseries.view.adapter.MoviePaginationListner.Companion.PAGE_START
+import com.saiful.moviestvseries.view.adapter.MoviePaginationListner.Companion.QUERY
 import com.saiful.moviestvseries.view.model.MovieDetails
 import com.saiful.moviestvseries.view.ui.MovieDetailsFragment.Companion.MovieId
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -35,6 +36,24 @@ constructor(
 
         }
         catch (e: Exception){
+            emit(DataState.Error(e))
+        }
+    }
+
+    suspend fun getSearchedMovies() : Flow<DataState<List<PopularMovies.Result>>> = flow {
+        emit(DataState.Loading)
+        try {
+            val networkMovies = retrofitService.getSearchedMovies(
+                "697bf3a9a65fafc6982838746d30694b",
+                QUERY,
+                PAGE_START
+            )
+
+            val movies = popularMoviesMapper.mapFromEntityList(networkMovies.results)
+            emit(DataState.Success(movies))
+
+        }
+        catch (e : Exception){
             emit(DataState.Error(e))
         }
     }

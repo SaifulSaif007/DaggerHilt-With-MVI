@@ -11,6 +11,7 @@ abstract class MoviePaginationListner
     companion object {
         var PAGE_START = 1
         private val PAGE_SIZE = 12
+        lateinit var QUERY : String
     }
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

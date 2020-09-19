@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
@@ -45,6 +46,8 @@ class TVSeriesFragment : Fragment(), PopularTvSeriesListAdapter.Interaction {
 
     private  val isLastPage = false
     private var isLoading = false
+    private var SeriesState = "Popular"
+    lateinit var searchView : SearchView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,8 +64,42 @@ class TVSeriesFragment : Fragment(), PopularTvSeriesListAdapter.Interaction {
 
         fm = activity?.supportFragmentManager!!
 
+        if (SeriesState == "Popular"){
+            viewModel.setStateEvent(MainStateEvent.GetPopularTVSeries)
+        }
+        else {
+            viewModel.setStateEvent(MainStateEvent.GetSearchedSeries)
+        }
+
+        searchView = binding.seriesSearchbar
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText?.length!! > 0){
+                    SeriesState = "Search"
+                    tvSeriesListAdapter.removeList()
+                    PAGE_START = 1
+                    TvSeriesPaginationListner.QUERY = newText
+                    viewModel.setStateEvent(MainStateEvent.GetSearchedSeries)
+                }
+                else{
+                    SeriesState = "Popular"
+                    tvSeriesListAdapter.removeList()
+                    PAGE_START = 1
+                    TvSeriesPaginationListner.QUERY = newText
+                    viewModel.setStateEvent(MainStateEvent.GetPopularTVSeries)
+
+                }
+                return false
+            }
+
+        })
+
         subscribeObserver()
-        viewModel.setStateEvent(MainStateEvent.GetPopularTVSeries)
         initRecycler()
     }
 

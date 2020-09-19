@@ -63,7 +63,6 @@ class SeriesDetailsFragment : Fragment(), SeriesTrailerAdapter.Interaction {
 
         if(activity != null) {
             requireActivity().bottomNavigationView.visibility = View.GONE
-            (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
 
             requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
             requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN)
@@ -124,7 +123,6 @@ class SeriesDetailsFragment : Fragment(), SeriesTrailerAdapter.Interaction {
     override fun onDetach() {
         super.onDetach()
         requireActivity().bottomNavigationView.visibility = View.VISIBLE
-        (activity as AppCompatActivity?)!!.supportActionBar!!.show()
 
         requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN)
         requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)

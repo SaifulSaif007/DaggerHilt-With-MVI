@@ -66,6 +66,10 @@ class PopularMovieListAdapter(private val interaction: Interaction? = null) :
         differ.submitList(movielist)
     }
 
+    fun removeList(){
+        movielist.clear()
+    }
+
 
     class PopularMovieViewHolder
     constructor(

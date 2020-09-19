@@ -2,6 +2,7 @@ package com.saiful.moviestvseries.view.adapter
 
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import retrofit2.http.Query
 
 abstract class TvSeriesPaginationListner
 constructor(private val layoutManager: GridLayoutManager)
@@ -10,6 +11,7 @@ constructor(private val layoutManager: GridLayoutManager)
     companion object {
         var PAGE_START = 1
         private val PAGE_SIZE = 12
+        lateinit var QUERY: String
     }
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

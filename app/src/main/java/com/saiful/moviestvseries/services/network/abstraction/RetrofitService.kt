@@ -18,6 +18,16 @@ interface RetrofitService {
         @Query("page") page : Int
     ) : PopularMoviesNetworkEntity
 
+    //https://api.themoviedb.org/3/search/movie?api_key=697bf3a9a65fafc6982838746d30694b&query=avengers&page=1
+
+    @GET("search/movie")
+    suspend fun getSearchedMovies(
+        @Query("api_key") key : String,
+        @Query("query") query: String,
+        @Query("page") page : Int
+    ) : PopularMoviesNetworkEntity
+
+
     //https://api.themoviedb.org/3/tv/popular?api_key=697bf3a9a65fafc6982838746d30694b&page=1
 
     @GET("tv/popular/")
@@ -26,6 +36,15 @@ interface RetrofitService {
         @Query("page") page: Int
     ) : PopularTVSeriesNetworkEntity
 
+
+    //https://api.themoviedb.org/3/search/tv?api_key=697bf3a9a65fafc6982838746d30694b&page=1&query=game
+
+    @GET("search/tv")
+    suspend fun getSearchedSeries(
+        @Query("api_key") key: String,
+        @Query("page") page: Int,
+        @Query("query") query: String
+    ) : PopularTVSeriesNetworkEntity
 
     //https://api.themoviedb.org/3/movie/542?api_key=697bf3a9a65fafc6982838746d30694b&append_to_response=videos
 
@@ -44,4 +63,6 @@ interface RetrofitService {
         @Query("api_key") key: String,
         @Query("append_to_response") response: String
     ) : SeriesDetailsNetworkEntity
+
+
 }

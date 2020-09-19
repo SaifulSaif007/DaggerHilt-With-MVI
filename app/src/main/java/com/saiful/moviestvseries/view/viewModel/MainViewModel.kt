@@ -54,8 +54,25 @@ constructor(
                         .launchIn(viewModelScope)
                 }
 
+                is MainStateEvent.GetSearchedMovies -> {
+                    movieRepository.getSearchedMovies()
+                        .onEach { dataState ->
+                            _dataStateForMovies.value = dataState
+                        }
+                        .launchIn(viewModelScope)
+                }
+
+
                 is MainStateEvent.GetPopularTVSeries -> {
                     tvSeriesRepository.getPopularTvSeries()
+                        .onEach { dataState ->
+                            _dataStateForTVSeries.value = dataState
+                        }
+                        .launchIn(viewModelScope)
+                }
+
+                is MainStateEvent.GetSearchedSeries -> {
+                    tvSeriesRepository.getSearchedSeries()
                         .onEach { dataState ->
                             _dataStateForTVSeries.value = dataState
                         }
@@ -91,7 +108,11 @@ sealed class MainStateEvent() {
 
     object GetPopularMovies : MainStateEvent()
 
+    object GetSearchedMovies : MainStateEvent()
+
     object GetPopularTVSeries : MainStateEvent()
+
+    object GetSearchedSeries : MainStateEvent()
 
     object GetMovieDetails : MainStateEvent()
 

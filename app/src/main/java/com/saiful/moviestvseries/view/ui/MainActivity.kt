@@ -2,11 +2,14 @@ package com.saiful.moviestvseries.view.ui
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.fxn.Bubble
@@ -76,5 +79,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
+
     }
+
 }

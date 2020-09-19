@@ -74,6 +74,10 @@ class PopularTvSeriesListAdapter(private val interaction: Interaction? = null) :
         differ.submitList(serieslist)
     }
 
+    fun removeList(){
+        serieslist.clear()
+    }
+
     class TVSeriesListViewHolder
     constructor(
         itemView: View,
