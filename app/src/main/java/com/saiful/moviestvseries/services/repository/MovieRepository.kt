@@ -27,7 +27,6 @@ constructor(
 
         try {
             val networkMovies = retrofitService.getPopularMovies(
-                "697bf3a9a65fafc6982838746d30694b",
                 PAGE_START
             )
 
@@ -44,7 +43,6 @@ constructor(
         emit(DataState.Loading)
         try {
             val networkMovies = retrofitService.getSearchedMovies(
-                "697bf3a9a65fafc6982838746d30694b",
                 QUERY,
                 PAGE_START
             )
@@ -65,7 +63,6 @@ constructor(
         try {
             val networkDetails = retrofitService.getMovieDetails(
                 MovieId,
-                "697bf3a9a65fafc6982838746d30694b",
                 "videos"
             )
 

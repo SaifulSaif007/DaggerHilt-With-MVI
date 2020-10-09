@@ -1,5 +1,6 @@
 package com.saiful.moviestvseries.services.network.abstraction
 
+import com.saiful.moviestvseries.BuildConfig
 import com.saiful.moviestvseries.services.network.model.MovieDetailsNetworkEntity
 import com.saiful.moviestvseries.services.network.model.PopularMoviesNetworkEntity
 import com.saiful.moviestvseries.services.network.model.PopularTVSeriesNetworkEntity
@@ -10,59 +11,48 @@ import retrofit2.http.Query
 
 interface RetrofitService {
 
-    //https://api.themoviedb.org/3/movie/popular?api_key=697bf3a9a65fafc6982838746d30694b&page=1
+    companion object
+    {
+        const val API_KEY =  BuildConfig.API_ACCESS_KEY
+    }
 
-    @GET("movie/popular")
+    @GET("movie/popular?api_key=$API_KEY")
     suspend fun getPopularMovies(
-        @Query("api_key") key : String,
         @Query("page") page : Int
     ) : PopularMoviesNetworkEntity
 
-    //https://api.themoviedb.org/3/search/movie?api_key=697bf3a9a65fafc6982838746d30694b&query=avengers&page=1
 
-    @GET("search/movie")
+    @GET("search/movie?api_key=$API_KEY")
     suspend fun getSearchedMovies(
-        @Query("api_key") key : String,
         @Query("query") query: String,
         @Query("page") page : Int
     ) : PopularMoviesNetworkEntity
 
 
-    //https://api.themoviedb.org/3/tv/popular?api_key=697bf3a9a65fafc6982838746d30694b&page=1
-
-    @GET("tv/popular/")
+    @GET("tv/popular?api_key=$API_KEY")
     suspend fun getPopularTVSeries(
-        @Query("api_key") key: String,
         @Query("page") page: Int
     ) : PopularTVSeriesNetworkEntity
 
 
-    //https://api.themoviedb.org/3/search/tv?api_key=697bf3a9a65fafc6982838746d30694b&page=1&query=game
-
-    @GET("search/tv")
+    @GET("search/tv?api_key=$API_KEY")
     suspend fun getSearchedSeries(
-        @Query("api_key") key: String,
         @Query("page") page: Int,
         @Query("query") query: String
     ) : PopularTVSeriesNetworkEntity
 
-    //https://api.themoviedb.org/3/movie/542?api_key=697bf3a9a65fafc6982838746d30694b&append_to_response=videos
 
-    @GET("movie/{id}")
+    @GET("movie/{id}?api_key=$API_KEY")
     suspend fun getMovieDetails(
         @Path("id") id: Int,
-        @Query("api_key") key: String,
         @Query("append_to_response") response: String
     ) : MovieDetailsNetworkEntity
 
-    //https://api.themoviedb.org/3/tv/424?api_key=697bf3a9a65fafc6982838746d30694b&append_to_response=videos
 
-    @GET("tv/{id}")
+    @GET("tv/{id}?api_key=$API_KEY")
     suspend fun getSeriesDetails(
         @Path("id") id: Int,
-        @Query("api_key") key: String,
         @Query("append_to_response") response: String
     ) : SeriesDetailsNetworkEntity
-
 
 }

@@ -29,7 +29,6 @@ constructor(
 
         try {
             val networkTVSeries = retrofitService.getPopularTVSeries(
-                "697bf3a9a65fafc6982838746d30694b",
                 PAGE_START
             )
 
@@ -47,7 +46,6 @@ constructor(
 
         try {
             val networkTVSeries = retrofitService.getSearchedSeries(
-                "697bf3a9a65fafc6982838746d30694b",
                 PAGE_START,
                 QUERY
             )
@@ -66,7 +64,6 @@ constructor(
         try {
             val networkDetails = retrofitService.getSeriesDetails(
                 SeriesId,
-                "697bf3a9a65fafc6982838746d30694b",
                 "videos"
             )
 
