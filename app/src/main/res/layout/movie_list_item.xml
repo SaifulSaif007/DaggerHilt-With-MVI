@@ -22,10 +22,7 @@
         <ImageView
             android:id="@+id/poster_image"
             android:layout_width="0dp"
-            android:layout_height="160dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="8dp"
+            android:layout_height="225dp"
             android:contentDescription="@string/movie_poster"
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
@@ -33,21 +30,33 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_launcher_background" />
 
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/gradient"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <TextView
             android:id="@+id/movie_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="10dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:ellipsize="end"
-            android:maxLines="1"
+            android:maxLines="2"
             android:textAlignment="viewStart"
             android:textColor="@color/white"
             android:textIsSelectable="false"
+            app:layout_constraintBottom_toTopOf="@+id/release_date"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/poster_image"
+            app:layout_constraintTop_toBottomOf="@+id/view"
             tools:text="Avengers End Game" />
 
         <TextView
@@ -55,14 +64,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
             android:textAlignment="viewStart"
             android:textColor="@color/white"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/movie_title"
             tools:text="3rd May, 2019" />
