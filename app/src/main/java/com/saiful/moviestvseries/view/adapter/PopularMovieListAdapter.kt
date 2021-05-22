@@ -86,7 +86,7 @@ class PopularMovieListAdapter(private val interaction: Interaction? = null) :
             itemView.release_date.text = item.releaseDate
 
             Glide.with(itemView.context)
-                .load("http://image.tmdb.org/t/p/w185" + item.posterPath)
+                .load("http://image.tmdb.org/t/p/w342" + item.posterPath)
                 .transition(DrawableTransitionOptions.withCrossFade(500))
                 .into(itemView.poster_image)
         }

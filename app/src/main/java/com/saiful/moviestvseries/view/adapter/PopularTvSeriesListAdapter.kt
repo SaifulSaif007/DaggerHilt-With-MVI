@@ -92,7 +92,7 @@ class PopularTvSeriesListAdapter(private val interaction: Interaction? = null) :
             itemView.series_title.text = item.name
             itemView.on_air_date.text = item.firstAirDate
 
-            Glide.with(context).load("http://image.tmdb.org/t/p/w185" + item.posterPath)
+            Glide.with(context).load("http://image.tmdb.org/t/p/w342" + item.posterPath)
                 .transition(DrawableTransitionOptions.withCrossFade(500))
                 .into(itemView.tv_poster_image)
 

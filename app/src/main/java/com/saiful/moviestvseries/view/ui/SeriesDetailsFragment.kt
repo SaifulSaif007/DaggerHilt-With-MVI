@@ -104,7 +104,7 @@ class SeriesDetailsFragment : Fragment(), SeriesTrailerAdapter.Interaction {
                     binding.seriesOverview.text = dataState.data.overview
 
                     Glide.with(activity?.applicationContext!!)
-                        .load("http://image.tmdb.org/t/p/w500" + dataState.data.posterPath)
+                        .load("http://image.tmdb.org/t/p/w780" + dataState.data.posterPath)
                         .transition(DrawableTransitionOptions.withCrossFade(600))
                         .error(R.drawable.nature)
                         .into(binding.posterImage.poster_image)
