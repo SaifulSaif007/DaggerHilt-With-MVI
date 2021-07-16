@@ -5,13 +5,11 @@
         android:id="@+id/moviesFragment"
         android:title="Popular Movies"
         android:checked="true"
-        android:iconTint="@color/teal_200"
         android:icon="@drawable/ic_baseline_movie_24"
         />
     <item
         android:id="@+id/TVSeriesFragment"
         android:title="Popular Series"
-        android:iconTint="@color/teal_200"
         android:icon="@drawable/ic_baseline_tv_24"
         />
 </menu>

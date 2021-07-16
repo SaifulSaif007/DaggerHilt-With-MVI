@@ -6,17 +6,12 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.Toast
-import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -31,7 +26,7 @@ import com.saiful.moviestvseries.view.viewModel.MainStateEvent
 import com.saiful.moviestvseries.view.viewModel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.movie_list_item.view.*
+import kotlinx.android.synthetic.main.fragment_movie_details.view.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
@@ -43,7 +38,7 @@ class MovieDetailsFragment : Fragment(), MovieTrailerAdapter.Interaction {
 
     private val viewModel : MainViewModel by viewModels()
 
-    lateinit var trailerAdapter : MovieTrailerAdapter
+    private lateinit var trailerAdapter : MovieTrailerAdapter
 
     companion object {
        var MovieId : Int = 0
@@ -52,7 +47,7 @@ class MovieDetailsFragment : Fragment(), MovieTrailerAdapter.Interaction {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentMovieDetailsBinding.inflate(inflater, container, false)
         return binding.root
@@ -97,12 +92,12 @@ class MovieDetailsFragment : Fragment(), MovieTrailerAdapter.Interaction {
 
     @SuppressLint("SetTextI18n")
     private fun subscribeObserver() {
-        viewModel.dataStateMovieDetails.observe(viewLifecycleOwner, Observer { dataState ->
+        viewModel.dataStateMovieDetails.observe(viewLifecycleOwner, { dataState ->
             when(dataState){
                 is DataState.Success<MovieDetails> -> {
                     binding.movieTitle.text = dataState.data.title
                     binding.movieTagline.text = dataState.data.tagline
-                    binding.genres.text =  MovieGenres(dataState.data.genres)
+                    binding.genres.text =  movieGenres(dataState.data.genres)
                     binding.rating.text = "Rating : "  + dataState.data.voteAverage.toString() +  "  ( " +dataState.data.voteCount.toString() + " )"
                     binding.Duration.text = "Status : " + dataState.data.status
                     binding.ReleaseDate.text = "Release Date : " + dataState.data.releaseDate
@@ -111,13 +106,16 @@ class MovieDetailsFragment : Fragment(), MovieTrailerAdapter.Interaction {
                     Glide.with(activity?.applicationContext!!)
                         .load("http://image.tmdb.org/t/p/w780" + dataState.data.posterPath)
                         .transition(DrawableTransitionOptions.withCrossFade(600))
-                        .error(R.drawable.nature)
+                        .error(R.drawable.gradient)
                         .into(binding.posterImage.poster_image)
 
                     dataState.data.videos?.results?.let { trailerAdapter.submitList(it) }
                 }
                 is DataState.Error -> {
                     Log.e("error", dataState.Exception.toString() )
+                }
+                else -> {
+
                 }
             }
         })
@@ -133,8 +131,8 @@ class MovieDetailsFragment : Fragment(), MovieTrailerAdapter.Interaction {
 
     }
 
-    private fun MovieGenres(list: List<MovieDetailsNetworkEntity.Genre?>?) : String{
-        var genres : String = ""
+    private fun movieGenres(list: List<MovieDetailsNetworkEntity.Genre?>?) : String{
+        var genres = ""
         if (list != null) {
             for (element in list){
                 genres = genres +  "\u25AA " + element?.name + "   "

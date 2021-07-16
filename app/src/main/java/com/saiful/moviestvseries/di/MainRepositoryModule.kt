@@ -10,13 +10,13 @@ import com.saiful.moviestvseries.services.repository.TVSeriesRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Singleton
 
 
-@InstallIn(ApplicationComponent::class)
 @Module
+@InstallIn(SingletonComponent::class)
 @ExperimentalCoroutinesApi
 object MainRepositoryModule {
 

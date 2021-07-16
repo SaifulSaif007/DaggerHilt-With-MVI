@@ -2,26 +2,19 @@ package com.saiful.moviestvseries.view.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
-import com.bumptech.glide.RequestManager
 import com.saiful.moviestvseries.R
 import com.saiful.moviestvseries.databinding.FragmentTvSeriesBinding
 import com.saiful.moviestvseries.util.DataState
 import com.saiful.moviestvseries.util.ItemDecorator
-import com.saiful.moviestvseries.view.adapter.MoviePaginationListner
-import com.saiful.moviestvseries.view.adapter.PopularMovieListAdapter
 import com.saiful.moviestvseries.view.adapter.PopularTvSeriesListAdapter
 import com.saiful.moviestvseries.view.adapter.TvSeriesPaginationListner
 import com.saiful.moviestvseries.view.adapter.TvSeriesPaginationListner.Companion.PAGE_START
@@ -46,13 +39,13 @@ class TVSeriesFragment : Fragment(), PopularTvSeriesListAdapter.Interaction {
 
     private  val isLastPage = false
     private var isLoading = false
-    private var SeriesState = "Popular"
-    lateinit var searchView : SearchView
+    private var seriesState = "Popular"
+    private lateinit var searchView : SearchView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         PAGE_START = 1
         _binding = FragmentTvSeriesBinding.inflate(layoutInflater, container, false)
         return binding.root
@@ -64,7 +57,7 @@ class TVSeriesFragment : Fragment(), PopularTvSeriesListAdapter.Interaction {
 
         fm = activity?.supportFragmentManager!!
 
-        if (SeriesState == "Popular"){
+        if (seriesState == "Popular"){
             viewModel.setStateEvent(MainStateEvent.GetPopularTVSeries)
         }
         else {
@@ -80,14 +73,14 @@ class TVSeriesFragment : Fragment(), PopularTvSeriesListAdapter.Interaction {
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (newText?.length!! > 0){
-                    SeriesState = "Search"
+                    seriesState = "Search"
                     tvSeriesListAdapter.removeList()
                     PAGE_START = 1
                     TvSeriesPaginationListner.QUERY = newText
                     viewModel.setStateEvent(MainStateEvent.GetSearchedSeries)
                 }
                 else{
-                    SeriesState = "Popular"
+                    seriesState = "Popular"
                     tvSeriesListAdapter.removeList()
                     PAGE_START = 1
                     TvSeriesPaginationListner.QUERY = newText
@@ -123,11 +116,11 @@ class TVSeriesFragment : Fragment(), PopularTvSeriesListAdapter.Interaction {
             }
 
             override fun isLastPage(): Boolean {
-                return isLastPage;
+                return isLastPage
             }
 
             override fun isLoading(): Boolean {
-                return isLoading;
+                return isLoading
             }
 
         })
@@ -136,7 +129,7 @@ class TVSeriesFragment : Fragment(), PopularTvSeriesListAdapter.Interaction {
 
 
     private fun subscribeObserver() {
-        viewModel.dataStateForTVSeries.observe(viewLifecycleOwner, Observer { dataState ->
+        viewModel.dataStateForTVSeries.observe(viewLifecycleOwner, { dataState ->
             when(dataState){
                 is DataState.Success<List<PopularTVSeries.Result>> -> {
                     tvSeriesListAdapter.submitList(dataState.data)
@@ -151,6 +144,9 @@ class TVSeriesFragment : Fragment(), PopularTvSeriesListAdapter.Interaction {
                 }
                 is DataState.Loading -> {
                         binding.progressBar.visibility = View.VISIBLE
+                }
+                else -> {
+
                 }
             }
         })
@@ -171,7 +167,7 @@ class TVSeriesFragment : Fragment(), PopularTvSeriesListAdapter.Interaction {
 
         fm.beginTransaction().add(R.id.fragmentContainerView, detailFrag, "series_detail").show(detailFrag).hide(MainActivity.active)
             .addToBackStack("series")
-            .setCustomAnimations(R.anim.fragment_open_enter,R.anim.fragment_close_exit, R.anim.nav_default_pop_enter_anim, R.anim.nav_default_pop_exit_anim)
+            .setCustomAnimations(R.anim.nav_default_pop_enter_anim, R.anim.nav_default_pop_exit_anim)
             .commit()
 
     }

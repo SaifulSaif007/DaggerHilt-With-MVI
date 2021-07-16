@@ -1,9 +1,9 @@
 package com.saiful.moviestvseries.view.viewModel
 
-import android.util.Log
-import androidx.hilt.Assisted
-import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.saiful.moviestvseries.services.repository.MovieRepository
 import com.saiful.moviestvseries.services.repository.TVSeriesRepository
 import com.saiful.moviestvseries.util.DataState
@@ -11,18 +11,19 @@ import com.saiful.moviestvseries.view.model.MovieDetails
 import com.saiful.moviestvseries.view.model.PopularMovies
 import com.saiful.moviestvseries.view.model.PopularTVSeries
 import com.saiful.moviestvseries.view.model.SeriesDetails
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@HiltViewModel
 @ExperimentalCoroutinesApi
 class MainViewModel
-@ViewModelInject
-constructor(
+@Inject constructor(
     private val movieRepository: MovieRepository,
-    private val tvSeriesRepository: TVSeriesRepository,
-    @Assisted private val savedStateHandle: SavedStateHandle
+    private val tvSeriesRepository: TVSeriesRepository
 ): ViewModel() {
 
     private var _dataStateForMovies : MutableLiveData<DataState<List<PopularMovies.Result>>> = MutableLiveData()
@@ -41,6 +42,7 @@ constructor(
 
     val dataStateSeriesDetails : LiveData<DataState<SeriesDetails>>
             get() = _dataStateSeriesDetails
+
 
 
     fun setStateEvent(mainStateEvent: MainStateEvent){
@@ -104,7 +106,7 @@ constructor(
 }
 
 
-sealed class MainStateEvent() {
+sealed class MainStateEvent {
 
     object GetPopularMovies : MainStateEvent()
 

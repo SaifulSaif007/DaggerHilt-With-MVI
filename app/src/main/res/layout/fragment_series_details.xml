@@ -14,38 +14,30 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-            <com.github.florent37.shapeofview.shapes.ArcView
-                android:id="@+id/arcView"
-                android:layout_width="0dp"
-                android:layout_height="550dp"
-                android:elevation="4dp"
+
+            <ImageView
+                android:id="@+id/poster_image"
+                android:layout_width="match_parent"
+                android:layout_height="450dp"
+                android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:shape_arc_height="25dp"
-                app:shape_arc_position="bottom">
+                tools:srcCompat="@drawable/gradient">
 
-                <ImageView
-                    android:id="@+id/poster_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    tools:srcCompat="@drawable/nature">
+            </ImageView>
 
-                </ImageView>
-
-            </com.github.florent37.shapeofview.shapes.ArcView>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/arcView">
+                app:layout_constraintTop_toBottomOf="@+id/poster_image">
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline"

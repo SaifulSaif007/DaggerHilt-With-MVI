@@ -10,12 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -24,7 +20,6 @@ import com.saiful.moviestvseries.databinding.FragmentSeriesDetailsBinding
 import com.saiful.moviestvseries.services.network.model.SeriesDetailsNetworkEntity
 import com.saiful.moviestvseries.util.DataState
 import com.saiful.moviestvseries.util.ItemDecorator
-import com.saiful.moviestvseries.view.adapter.MovieTrailerAdapter
 import com.saiful.moviestvseries.view.adapter.SeriesTrailerAdapter
 import com.saiful.moviestvseries.view.model.SeriesDetails
 import com.saiful.moviestvseries.view.viewModel.MainStateEvent
@@ -44,7 +39,7 @@ class SeriesDetailsFragment : Fragment(), SeriesTrailerAdapter.Interaction {
 
     private val viewModel : MainViewModel by viewModels()
 
-    lateinit var trailerAdapter: SeriesTrailerAdapter
+    private lateinit var trailerAdapter: SeriesTrailerAdapter
 
     companion object {
         var SeriesId : Int = 0
@@ -53,7 +48,7 @@ class SeriesDetailsFragment : Fragment(), SeriesTrailerAdapter.Interaction {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentSeriesDetailsBinding.inflate(inflater, container, false )
         return binding.root
     }
@@ -92,12 +87,12 @@ class SeriesDetailsFragment : Fragment(), SeriesTrailerAdapter.Interaction {
 
     @SuppressLint("SetTextI18n", "ResourceType")
     private fun subscribeObserver() {
-        viewModel.dataStateSeriesDetails.observe(viewLifecycleOwner, Observer { dataState->
+        viewModel.dataStateSeriesDetails.observe(viewLifecycleOwner, { dataState->
             when(dataState){
                 is DataState.Success<SeriesDetails> -> {
                     binding.SeriesName.text = dataState.data.name
-                    binding.seriesStatus.text = SeriesSts(dataState.data.status)
-                    binding.seriesGenres.text =  SeriesGenres(dataState.data.genres)
+                    binding.seriesStatus.text = seriesSts(dataState.data.status)
+                    binding.seriesGenres.text =  seriesGenres(dataState.data.genres)
                     binding.seriesRating.text = "Rating : " + dataState.data.voteAverage.toString() + " ( " + dataState.data.voteCount.toString() + " )"
                     binding.seriesFirstAirDate.text = "First Air Date : " +  dataState.data.firstAirDate
                     binding.seriesNoOfSeason.text = "number Of Seasons : " + dataState.data.numberOfSeasons.toString()
@@ -106,7 +101,7 @@ class SeriesDetailsFragment : Fragment(), SeriesTrailerAdapter.Interaction {
                     Glide.with(activity?.applicationContext!!)
                         .load("http://image.tmdb.org/t/p/w780" + dataState.data.posterPath)
                         .transition(DrawableTransitionOptions.withCrossFade(600))
-                        .error(R.drawable.nature)
+                        .error(R.drawable.gradient)
                         .into(binding.posterImage.poster_image)
 
                     dataState.data.videos?.results?.let { trailerAdapter.submitList(it) }
@@ -116,6 +111,9 @@ class SeriesDetailsFragment : Fragment(), SeriesTrailerAdapter.Interaction {
                     Log.e("error", dataState.Exception.toString() )
                 }
 
+                else -> {
+
+                }
             }
         })
     }
@@ -129,8 +127,8 @@ class SeriesDetailsFragment : Fragment(), SeriesTrailerAdapter.Interaction {
 
     }
 
-    private fun SeriesGenres(list: List<SeriesDetailsNetworkEntity.Genre?>? ) : String {
-        var genres : String = ""
+    private fun seriesGenres(list: List<SeriesDetailsNetworkEntity.Genre?>? ) : String {
+        var genres = ""
         if (list != null) {
             for (element in list){
                 genres = genres +  "\u25AA " + element?.name + "   "
@@ -139,14 +137,11 @@ class SeriesDetailsFragment : Fragment(), SeriesTrailerAdapter.Interaction {
         return genres
     }
 
-    public fun SeriesSts(status : String? ) : String {
-        var sts : String = ""
-        when(status.equals("Returning Series")) {
-           true-> sts = "Running"
-            false -> sts = status.toString()
+    private fun seriesSts(status: String?): String {
+        return when (status.equals("Returning Series")) {
+            true -> "Running"
+            false -> status.toString()
         }
-
-        return sts
     }
 
     override fun onItemSelected(position: Int, item: SeriesDetailsNetworkEntity.VideoResult) {

@@ -9,7 +9,6 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.saiful.moviestvseries.R
 import com.saiful.moviestvseries.databinding.FragmentMoviesBinding
@@ -39,14 +38,14 @@ class MoviesFragment : Fragment(), PopularMovieListAdapter.Interaction
 
     private val isLastPage = false
     private var isLoading = false
-    private var MovieState = "Popular"
-    lateinit var searchView : SearchView
+    private var movieState = "Popular"
+    private lateinit var searchView : SearchView
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
 
         MoviePaginationListner.PAGE_START = 1
@@ -60,7 +59,7 @@ class MoviesFragment : Fragment(), PopularMovieListAdapter.Interaction
 
         fm = activity?.supportFragmentManager!!
 
-        if(MovieState == "Popular"){
+        if(movieState == "Popular"){
             viewModel.setStateEvent(MainStateEvent.GetPopularMovies)
         }
         else {
@@ -76,14 +75,14 @@ class MoviesFragment : Fragment(), PopularMovieListAdapter.Interaction
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (newText?.length!! > 0) {
-                    MovieState = "Search"
+                    movieState = "Search"
                     movieListAdapter.removeList()
                     MoviePaginationListner.PAGE_START = 1
                     MoviePaginationListner.QUERY = newText
                     viewModel.setStateEvent(MainStateEvent.GetSearchedMovies)
 
                 } else {
-                    MovieState = "Popular"
+                    movieState = "Popular"
                     movieListAdapter.removeList()
                     MoviePaginationListner.PAGE_START = 1
                     MoviePaginationListner.QUERY = newText
@@ -116,24 +115,24 @@ class MoviesFragment : Fragment(), PopularMovieListAdapter.Interaction
             override fun loadMoreItems() {
                 isLoading = true
                 PAGE_START++
-                if (MovieState == "Popular") {
+                if (movieState == "Popular") {
                     viewModel.setStateEvent(MainStateEvent.GetPopularMovies)
                 } else viewModel.setStateEvent(MainStateEvent.GetSearchedMovies)
             }
 
             override fun isLastPage(): Boolean {
-                return isLastPage;
+                return isLastPage
             }
 
             override fun isLoading(): Boolean {
-                return isLoading;
+                return isLoading
             }
 
         })
     }
 
     private fun subscribeObserver() {
-        viewModel.dataStateForMovies.observe(viewLifecycleOwner, Observer { dataState ->
+        viewModel.dataStateForMovies.observe(viewLifecycleOwner, { dataState ->
             when (dataState) {
                 is DataState.Success<List<PopularMovies.Result>> -> {
 
@@ -149,6 +148,9 @@ class MoviesFragment : Fragment(), PopularMovieListAdapter.Interaction
                 }
                 is DataState.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
+                }
+                else -> {
+
                 }
             }
 
@@ -172,8 +174,6 @@ class MoviesFragment : Fragment(), PopularMovieListAdapter.Interaction
         ).hide(MainActivity.active)
             .addToBackStack("movies")
             .setCustomAnimations(
-                R.anim.fragment_open_enter,
-                R.anim.fragment_close_exit,
                 R.anim.nav_default_pop_enter_anim,
                 R.anim.nav_default_pop_exit_anim
             )
